@@ -1,0 +1,385 @@
+---
+title: Talep
+---
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+<style>
+  body > .container{
+    min-width: 100%;
+    height: 100%;
+    padding: 40px 20px;
+    margin: 0;
+  }
+  .container > .row{
+    height: 100%;
+  }
+  .row{
+    margin: 0;
+    width: 100%;
+  }
+
+  .ekle-button{
+    position: relative;
+    margin-top: 15px;
+  }
+
+  .ekle-btn{
+    position: absolute;
+    right: 0;
+    width: 100%;
+  }
+</style>
+
+<div class="container">
+  <div class="row">
+    <div class="col-4 HPO-tree">
+      <div class="row">
+        <div class="search-container">
+          <form action="">
+            <div style="display: inline;">
+              <input id="hp-search"  class="form-control" type="text" placeholder="Ara.." name="search" autocomplete="off">
+              <i id="erase">x</i>
+            </div>
+            <button class="btn btn-info" type="button" onclick="showInTree()">Git</button>
+            
+          </form>
+          <ul class="list-group" id="hp-result"></ul>
+          
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 form-group" style="padding: 0;">
+            <fieldset class="the-fieldset">
+                <legend class="the-legend">HPO Terimleri Hiyerarsi Agaci</legend>
+                <div class="table-responsive term-border">
+                  <table class="table">
+                    <ul id="tree">
+                      <li id="HP0000001" onclick="allChildren('HP:0000001',object); showInfo('HP:0000001',object)">All</li>
+                    </ul>
+                  </table>
+                </div>
+            </fieldset>
+        </div>
+      </div>
+    </div>
+    <div class="col-5">
+      <div class="row table-responsive" style="height:450px;">
+        <div class="col-12" style="padding: 0;">
+            <div>
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <th scope="row">İsim</th>
+                    <td id="hp-name"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Açıklama</th>
+                    <td id="hp-desc"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Belirleyici</th>
+                    <td id="hp-id"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Alternatif Belirleyici</th>
+                    <td id="hp-alt-id"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Çapraz Referans</th>
+                    <td id="hp-xref"></td>
+                  </tr>
+                  <!--<tr>
+                    <th scope="row">SubClassOf</th>
+                    <td id="hp-is-a"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">SuperClassOf</th>
+                    <td id="hp-can-be"></td>
+                  </tr>-->
+                </tbody>
+              </table>
+            </div>
+        </div>
+      </div>
+      <div class="ekle-button row">
+          <button class="ekle-btn btn btn-secondary" type="submit" name="button" onclick="hpAdd()">Ekle</button>
+      </div>
+    </div>
+    <div class="col-3 talep-form">
+      <form class="" action="" method="">
+        <div class="talep-info">
+          <div class="row bio-id">
+              <p>ID_XXXXXXXXX</p>
+            </div>
+            <div class="row sex">
+              <select class="custom-select">
+                <option value="sex">Cinsiyet</option>
+                <option value="male">Erkek</option>
+                <option value="female">Kadin</option>
+                <option value="unknown">Bilinmeyen</option>
+              </select>
+            </div>
+            <div class="row age">
+              <input class="form-control" type="number" name="quantity" min="0" max="100" placeholder="0">
+              <select class="custom-select">
+                  <option value="yaş">Yaş</option>
+                  <option value="gunluk">Günlük</option>
+                  <option value="aylik">Aylık</option>
+              </select>
+            </div>
+            <div class="row added-hpo-terms">
+              <div class="col-12">
+                    <!--<div class="btnss">
+                      <span onclick="hpAdd()"> + </span>
+                      <span onclick="hpRemove()"> - </span>
+                    </div>-->
+                    <div class="row HPO-terms">
+                        <p>Eklenen HPO Terimleri</p>
+                    </div>
+                    <div class="row HPO-terms-box">
+                      <div class="hp-added-name-area">
+                        <ul id="hp-added-name" class="hp-added"></ul>
+                      </div>
+                    </div>
+              </div>
+            </div>
+        </div>
+        
+        <div class="row talep-button">
+            <button class="btn btn-danger" type="submit" name="button">Tamamla</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+    'use strict'
+
+    const object = Object({{site.data.hp}});
+
+    function showInfo(id,object){
+      let hp_name = document.getElementById('hp-name');
+      hp_name.innerHTML = (object[id]['name']);
+
+      let hp_desc = document.getElementById('hp-desc');
+      hp_desc.innerHTML = (object[id]['desc']);
+      if (id === "HP:0000001") {
+        hp_desc.innerHTML = (object[id]['other']['comment'])
+      }
+
+      let hp_id = document.getElementById('hp-id');
+      hp_id.innerHTML = (object[id]['id']);
+
+      let hp_alt_id = document.getElementById('hp-alt-id');
+      hp_alt_id.innerHTML = "";
+      let ul = document.createElement('ul');
+      hp_alt_id.appendChild(ul);
+      for (let each in object[id]['other']['alt_id']) {
+        var li = document.createElement('li');
+        ul.appendChild(li);
+        li.innerHTML = object[id]['other']['alt_id'][each];
+      }
+
+      //hp_alt_id.innerHTML = (object[id]['other']['alt_id']);
+
+      let hp_xref = document.getElementById('hp-xref');
+      hp_xref.innerHTML = "";
+      let ul1 = document.createElement('ul');
+      hp_xref.appendChild(ul1);
+      for (let each in object[id]['other']['xref']) {
+        var li = document.createElement('li');
+        var an = document.createElement('a');
+        an.setAttribute('href', "http://google.com");
+        li.appendChild(an);
+        ul1.appendChild(li);
+        an.innerHTML = object[id]['other']['xref'][each];
+      }
+      //hp_xref.innerHTML = (object[id]['other']['xref']);
+      /*
+      let hp_is_a = document.getElementById('hp-is-a');
+      hp_is_a.innerHTML = "";
+      let ul2 = document.createElement('ul');
+      hp_is_a.appendChild(ul2);
+      for (let each in object[id]['other']['is_a']) {
+        var li = document.createElement('li');
+        ul2.appendChild(li);
+        li.innerHTML = object[id]['other']['is_a'][each];
+      }
+      //hp_is_a.innerHTML = (object[id]['relations']['is_a']);
+
+      let hp_can_be = document.getElementById('hp-can-be');
+      hp_can_be.innerHTML = "";
+      let ul3 = document.createElement('ul');
+      hp_can_be.appendChild(ul3);
+      for (let each in object[id]['relations']['can_be']) {
+        var li = document.createElement('li');
+        ul3.appendChild(li);
+        li.innerHTML = object[id]['relations']['can_be'][each];
+      }
+      //hp_can_be.innerHTML = (object[id]['relations']['can_be']);
+      */
+    };
+
+    let _id;
+    let child = [];
+    function allChildren(id,object) {
+      _id = id.replace("P:","P");
+      child = [];
+      if(id in object){
+        if($(`.${_id}`).length <1){
+          child = object[id].relations["can_be"]
+          $(`<ul class="${_id}"></ul>`).insertAfter($(`#${_id}`));
+
+          for(let each in child){
+            $(`.${_id}`).append(`<li id="${child[each].replace('P:','P')}" onclick="allChildren('${child[each]}',object); showInfo('${child[each]}',object)">${object[child[each]]['name']}</li>`);
+          }
+        }else if ($(`.${_id}`).length == 1) {
+          $(`.${_id}`).toggle();
+        }
+      }
+    };
+
+    $(document).ready(function(){
+      $("#HP0000001").trigger("click");
+    });
+
+    let name;
+    let id_id;
+    let ul_added;
+    let names_list;
+    let nor = [];
+    function hpAdd(){
+      name = document.getElementById('hp-name');
+      id_id = document.getElementById('hp-id')
+      if(!(nor.includes(name.textContent))){
+        nor.push(name.textContent);
+
+        ul_added = document.getElementById('hp-added-name');
+        var li = document.createElement('li');
+        li.classList.add("hp-list-added-name");
+        ul_added.prepend(li);
+
+        var span1 = document.createElement('span');
+        var span2 = document.createElement('span');
+        var span3 = document.createElement('span');
+        span1.classList.add("hp--name");
+        span2.setAttribute("onclick","hpRmv(this)");
+        span3.classList.add("hp--id");
+        li.appendChild(span1);
+        li.appendChild(span3);
+        li.appendChild(span2);
+        span1.innerHTML = name.textContent;
+        span2.innerHTML = "x";
+        span3.innerHTML = ` - ${id_id.textContent}`;
+
+      }else {
+        alert("Already Exist");
+        console.log(nor);
+        console.log("Already Exist");
+      }
+    }
+
+    function hpRemove(){
+      name = document.getElementById('hp-name');
+      names_list = document.getElementsByClassName('hp--name');
+      if(nor.includes(name.textContent)){
+        nor.splice(nor.indexOf(name.textContent),1);
+      }else {
+        alert("You didn't add it before or already Deleted");
+        console.log(nor);
+        console.log("You didn't add it before or already Deleted");
+      }
+      for (let each in names_list){
+        if(names_list[each].textContent === name.textContent){
+          $(names_list[each]).parent().remove();
+        }
+      }
+    }
+    let name1;
+    function hpRmv(name){
+      name = $(name);
+      console.log(name.textContent);
+      let parent = $(name).parent();
+      console.log(name[0]);
+      console.log(parent[0]);
+      name1 = name[0].previousSibling.previousSibling.textContent;
+
+      console.log(name1);
+      if(nor.includes(name1)){
+        nor.splice(nor.indexOf(name1),1);
+      }else {
+        alert("You didn't add it before or already Deleted");
+        console.log(nor);
+        console.log("You didn't add it before or already Deleted");
+      }
+      parent.remove();
+    }
+
+    $(document).ready(function(){
+      $('#hp-search').keyup(function(){
+        $('#hp-result').html('');
+        var searchField = $('#hp-search').val();
+        var expression = new RegExp(searchField, "i");
+        if(searchField.length >= 2){
+          for(let each in object){
+            if(expression.test(object[each].name)){
+              $('#hp-result').append('<li class="list-group-item link-class">' + object[each].name + '</li>');
+            }
+          }
+        }
+      });   
+      
+      $('#hp-result').on('click', 'li', function() {
+        var click_text = $(this).text();
+        $('#hp-search').val(click_text);
+        $("#hp-result").html('');
+      });
+    });
+
+    $("#erase").click(function(){
+      $(this).prev().val("");
+    });
+
+    function showInTree(){
+      let searchingName = $('#hp-search').val();
+      console.log(searchingName);
+      for(let each in object){
+        if(object[each].name == searchingName){ 
+            console.log(object[each]);
+            showInfo(object[each].id, object);
+            let x = findParent(object[each].id, object);
+            seeTree(x);
+            $(`#${object[each].id.replace('P:','P')}`).css("color","red");
+        }
+      }
+    }
+
+    function findParent(id1,object){
+      let parents = [];
+      parents.unshift(id1);
+      console.log(id1);
+      console.log(object[id1]);
+      let obj = object[id1];
+      let i = 0;
+      while(id1 != "HP:0000001" && i < 40){
+        let parent = object[id1]["other"]["is_a"];
+        for(let each in parent){
+          parents.unshift(parent[each]);
+        }
+        id1 = parents[0];
+        i = i+1;
+      }
+      return (parents); 
+    }
+
+    function seeTree(arr){
+      $('#HP0000001').trigger('click');
+      for(let each in arr){
+        let clicked = arr[each].replace('P:','P');
+        $(`#${clicked}`).trigger('click');
+      }
+    }
+</script>

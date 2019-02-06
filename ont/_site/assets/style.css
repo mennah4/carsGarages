@@ -1,0 +1,140 @@
+html, body {
+  height: 100%; }
+
+main .index-info, main .index-icon, main .index-button {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+input {
+  float: left; }
+
+header {
+  text-align: center;
+  margin: 30px auto; }
+
+footer {
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  bottom: 0; }
+
+main {
+  padding-top: 30px; }
+  main .index-info {
+    border: 3px solid black;
+    padding: 0 30px;
+    height: 300px;
+    font-weight: bold; }
+  main .index-icon {
+    height: 300px; }
+
+.talep-form {
+  border-left: 2px solid #e0e0e0; }
+  .talep-form form {
+    display: flex;
+    flex-direction: column;
+    height: 100%; }
+  .talep-form .talep-info {
+    height: 450px; }
+    .talep-form .talep-info > div {
+      margin-bottom: 30px; }
+  .talep-form .bio-id p, .talep-form .talep-button button, .talep-form .sex select {
+    width: 100%; }
+  .talep-form .age input, .talep-form .age select {
+    width: 50%; }
+  .talep-form .added-hpo-terms .col-12 {
+    padding: 0; }
+  .talep-form .HPO-terms > :first-child, .talep-form .HPO-terms-box > :first-child {
+    width: 100%; }
+  .talep-form .btnss {
+    font-size: 48px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-around; }
+  .talep-form .talep-button {
+    margin-top: 15px; }
+  .talep-form .HPO-terms-box {
+    border: 1px solid #e0e0e0;
+    height: 150px;
+    overflow-y: scroll; }
+    .talep-form .HPO-terms-box ul {
+      list-style-type: none;
+      padding-inline-start: 10px;
+      font-size: 14px; }
+    .talep-form .HPO-terms-box li {
+      float: left;
+      margin: 2px;
+      padding: 1px 5px;
+      background-color: #dee2e6; }
+    .talep-form .HPO-terms-box li span:nth-child(3) {
+      margin-left: 5px;
+      border: 1px solid #dc3545;
+      background-color: #dc3545; }
+
+.HPO-tree {
+  display: flex;
+  flex-direction: column;
+  border-right: 2px solid #e0e0e0; }
+  .HPO-tree > div:first-child {
+    margin-bottom: 20px; }
+  .HPO-tree .search-container {
+    width: 100%; }
+    .HPO-tree .search-container form {
+      height: 100%; }
+      .HPO-tree .search-container form input {
+        width: 75%;
+        height: 100%;
+        text-indent: 10px; }
+      .HPO-tree .search-container form i {
+        position: absolute;
+        right: 30%;
+        top: 4px;
+        border: none;
+        height: 20px;
+        width: 20px;
+        border-radius: 100%;
+        outline: none;
+        text-align: center;
+        font-weight: bold;
+        padding: 2px; }
+      .HPO-tree .search-container form i:hover {
+        cursor: pointer; }
+      .HPO-tree .search-container form button {
+        width: 25%; }
+    .HPO-tree .search-container #hp-result {
+      position: absolute;
+      width: 93%;
+      max-width: 800px;
+      cursor: pointer;
+      overflow-y: auto;
+      max-height: 400px;
+      box-sizing: border-box;
+      z-index: 1001; }
+      .HPO-tree .search-container #hp-result .link-class:hover {
+        background-color: #f1f1f1; }
+      .HPO-tree .search-container #hp-result .link-class {
+        margin-right: 0; }
+  .HPO-tree .the-fieldset {
+    border: 1px solid #e0e0e0;
+    padding: 10px; }
+    .HPO-tree .the-fieldset .the-legend {
+      border-style: none;
+      border-width: 0;
+      font-size: 14px;
+      line-height: 20px;
+      margin-bottom: 0;
+      width: auto;
+      padding: 0 10px;
+      border: 1px solid #e0e0e0; }
+    .HPO-tree .the-fieldset .term-border {
+      border: 1px solid #e0e0e0;
+      height: 400px; }
+      .HPO-tree .the-fieldset .term-border ul {
+        padding-inline-start: 20px; }
+
+tbody {
+  padding: 30px 0; }
+  tbody ul {
+    list-style-type: none;
+    padding-inline-start: 0; }

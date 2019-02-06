@@ -1,0 +1,205 @@
+html,body{
+  height: 100%;
+}
+
+%index-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+input{
+  float: left;
+}
+
+header{
+  text-align: center;
+  margin: 30px auto;
+}
+
+footer{
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+main{
+  padding-top: 30px;
+
+  .index-info{
+    border: 3px solid black;
+    padding: 0 30px;
+    height: 300px;
+    @extend %index-flex;
+    font-weight: bold;
+  }
+
+  .index-icon {
+      height: 300px;
+      @extend %index-flex;
+  }
+
+  .index-button{
+    @extend %index-flex;
+  }
+}
+
+.talep-form {
+    border-left: 2px solid #e0e0e0;;
+    form{
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .talep-info{
+      height: 450px;
+      >div{
+        margin-bottom: 30px;
+      }
+    }
+
+    .bio-id p, .talep-button button, .sex select{
+      width: 100%;
+    }
+
+    .age{
+      input,select{
+        width: 50%;
+      }
+    }
+    .added-hpo-terms {
+      .col-12{
+        padding: 0;
+      }
+    }
+    .HPO-terms > :first-child,.HPO-terms-box > :first-child{
+      width: 100%;
+    }
+    .btnss{
+      font-size: 48px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .talep-button{
+      margin-top: 15px;
+    }
+
+    .HPO-terms-box{
+      border: 1px solid #e0e0e0;
+      height: 150px;
+      overflow-y: scroll;
+      ul{
+        list-style-type: none;
+        padding-inline-start: 10px;
+        font-size: 14px;
+      }
+      li{
+        float: left;
+        margin: 2px;
+        padding: 1px 5px;
+        background-color: #dee2e6;
+      }
+      li span:nth-child(3){
+        margin-left: 5px;
+        border: 1px solid #dc3545;
+        background-color: #dc3545;
+      }
+    }
+}
+
+.HPO-tree{
+  display: flex;
+  flex-direction: column;
+  border-right: 2px solid #e0e0e0;
+  >div:first-child{
+    margin-bottom: 20px;
+  }
+
+  .search-container{
+    width: 100%;
+    
+    form{
+      height: 100%;
+      input {
+        width: 75%;
+        height: 100%;
+        text-indent: 10px;
+      }
+      i{
+        position:absolute;
+        right: 30%;
+        top: 4px;
+        border:none;
+        height:20px;
+        width:20px;
+        border-radius:100%;
+        outline:none;
+        text-align:center;
+        font-weight:bold;
+        padding:2px;
+      }
+      i:hover{
+        
+        cursor:pointer;
+        
+      }
+      button{
+        width: 25%;
+      }
+    }
+    #hp-result {
+      position: absolute;
+      width: 93%;
+      max-width:800px;
+      cursor: pointer;
+      overflow-y: auto;
+      max-height: 400px;
+      box-sizing: border-box;
+      z-index: 1001;
+      .link-class:hover{
+        background-color:#f1f1f1;
+       }
+       .link-class{
+         margin-right: 0;
+       }
+    }
+  }
+
+  .the-fieldset {
+      border: 1px solid #e0e0e0;
+      padding: 10px;
+
+      .the-legend {
+          border-style: none;
+          border-width: 0;
+          font-size: 14px;
+          line-height: 20px;
+          margin-bottom: 0;
+          width: auto;
+          padding: 0 10px;
+          border: 1px solid #e0e0e0;
+      }
+
+      .term-border{
+        border: 1px solid #e0e0e0;
+        height: 400px;
+
+        ul{
+          padding-inline-start: 20px;
+        }
+      }
+  }
+}
+
+tbody{
+  padding: 30px 0;
+  ul{
+    list-style-type: none;
+    padding-inline-start: 0;
+  }
+}
